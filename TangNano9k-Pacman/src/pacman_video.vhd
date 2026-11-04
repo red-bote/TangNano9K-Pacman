@@ -127,6 +127,7 @@ architecture RTL of PACMAN_VIDEO is
   signal video_out          : std_logic_vector(7 downto 0);
   signal video_op_sel       : std_logic;
   signal final_col          : std_logic_vector(3 downto 0);
+  signal pal_rom_addr       : std_logic_vector(4 downto 0); -- 82s123 7F, A4 low
   signal lut_7f             : std_logic_vector(7 downto 0);
 ---------------------------------------------------------------------------------
 begin
@@ -309,11 +310,13 @@ final_col <= (others => '0') when (vout_hblank = '1') or (I_VBLANK = '1') else
 				 sprite_ram_reg(5 downto 2) when video_op_sel = '1' else 
 				 lut_4a(3 downto 0);
 --------------------------------------------------------------
+pal_rom_addr <= '0' & final_col;
+
 col_rom_7f : entity work.PROM7_DST
 port map
 (
     CLK              => CLK,
-	ADDR(3 downto 0) => final_col,
+	ADDR             => pal_rom_addr,
 	DATA(2 downto 0) => O_RED,
 	DATA(5 downto 3) => O_GREEN,
 	DATA(7 downto 6) => O_BLUE
