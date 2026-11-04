@@ -255,6 +255,7 @@ shift_op(1)  <= shift_regu(3)           when vout_yflip = '0' else shift_regu(0)
 		data_a_i  => sprite_ram_ip_tmp,
 
 		clk_b_i   => CLK,
+		en_b_i    => ENA_6, -- read on the pixel enable, as the original RAMB16 (ENB)
 		addr_b_i  => sprite_ram_addr,
 		data_b_o  => sprite_ram_op_tmp
 	);
