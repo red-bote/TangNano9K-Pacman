@@ -88,7 +88,10 @@ entity PACMAN is
     -- DIP switch bank 1 (0x5080), default 3 lives, bonus at 10000, 1 coin 1 credit
     I_DIP_SW           : in  std_logic_vector(7 downto 0) := "11001001";
     -- scandoubler scanlines: 00 off, 01 25 %, 10 50 %, 11 75 %
-    I_SCANLINES        : in  std_logic_vector(1 downto 0) := "00"
+    I_SCANLINES        : in  std_logic_vector(1 downto 0) := "00";
+    -- native sync (15 kHz, active high) of O_R, O_G, O_B for an external scan converter
+    O_HSYNC_NAT        : out std_logic;
+    O_VSYNC_NAT        : out std_logic
     );
 end;
 -------------------------------------------------------------------------------
@@ -563,6 +566,8 @@ ab <= cpu_addr(11 downto 0) when hcnt(1) = '0' else vram_addr;
       O_B           <= video_b;
       O_COMP_SYNC_L <= comp_sync_l;
       scanlines     <= I_SCANLINES;
+      O_HSYNC_NAT   <= hsync;
+      O_VSYNC_NAT   <= vsync;
 ------------------------------------------------------------------------------------ 
  u_audio : entity work.PACMAN_AUDIO
     port map (
