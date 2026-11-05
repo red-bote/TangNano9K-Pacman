@@ -91,7 +91,9 @@ entity PACMAN is
     I_SCANLINES        : in  std_logic_vector(1 downto 0) := "00";
     -- native sync (15 kHz, active high) of O_R, O_G, O_B for an external scan converter
     O_HSYNC_NAT        : out std_logic;
-    O_VSYNC_NAT        : out std_logic
+    O_VSYNC_NAT        : out std_logic;
+    -- service mode switch (IN1 bit 4), active low: self-test and test screens
+    I_TEST_L           : in  std_logic := '1'
     );
 end;
 -------------------------------------------------------------------------------
@@ -616,7 +618,7 @@ ab <= cpu_addr(11 downto 0) when hcnt(1) = '0' else vram_addr;
       in1_reg(7) <= '1'; -- Table 1=Upright / 0=Cocktail
       in1_reg(6) <= I_2P_START;
       in1_reg(5) <= I_1P_START;
-      in1_reg(4) <= '1'; 
+      in1_reg(4) <= I_TEST_L; 
       in1_reg(3) <= not SW_DOWN;
       in1_reg(2) <= not SW_RIGHT;
       in1_reg(1) <= not SW_LEFT;
