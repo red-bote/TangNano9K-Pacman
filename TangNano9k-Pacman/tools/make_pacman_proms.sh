@@ -4,9 +4,8 @@
 #   1. compile make_vhdl_prom into tools_prom_src/bin/
 #   2. unzip ROMZIP (comma-separated) or ${ROMDIR:-~/roms}/pacman.zip and its MAME
 #      parent puckman.zip (graphics and PROMs) into unzip/
-#   3. write the PROM VHDL and the stamp .done into ../proms/
-# make_vhdl_prom names the entity after the output file, so it writes into unzip/ and
-# the result is moved.
+#   3. write the PROM VHDL into ../proms/
+#   4. create ../proms/.done, a marker file the Makefile checks before a bitstream build
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -49,6 +48,6 @@ prom 82s126.1m PROM1_DST.vhd
 prom 82s126.4a PROM4_DST.vhd
 prom 82s123.7f PROM7_DST.vhd
 
-touch "$PROM_DIR/.done"   # stamp for the Makefile bitstream prerequisite
+touch "$PROM_DIR/.done"
 echo "PROM VHDL in $PROM_DIR:"
 ls -1 "$PROM_DIR"
